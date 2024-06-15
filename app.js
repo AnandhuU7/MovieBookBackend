@@ -27,5 +27,5 @@ app.use("/user",userRouter);
 app.use("/admin",adminRouter);
 
 app.listen(8080,()=>{
-    console.log("server is running in port on 8080")
+    console.log("server is running in port ")
 })
