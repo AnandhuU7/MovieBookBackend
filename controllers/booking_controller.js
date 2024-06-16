@@ -34,12 +34,40 @@ exports.newBooking = async (req, res, next) => {
       seatNumber,
       user,
     });
-    
+
     await booking.save();
-   
-    return res.status(201).json({ message: "booked", booking: booking });
+
+    existingUser.bookings.push(booking._id);
+    await existingUser.save();
+    existingMovie.bookings.push(booking._id);
+    await existingMovie.save();
+
+    booking.movie = existingMovie;
+    booking.user = existingUser;
+
+    return res
+      .status(201)
+      .json({ message: "Booking successful", booking: booking });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// const savedBooking = await Booking.findById(booking._id)
+//   .populate('movie')
+//   .populate('user');
+
+exports.getBookingById = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Not found" });
+    }
+    return res.status(201).json({ Booking: booking });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
   }
 };
