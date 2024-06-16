@@ -120,6 +120,7 @@ exports.loginUser = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Incorrect Password" });
     }
+    
 return res.status(200).json({message:"Login Successfully "})
   } catch (error) {
     console.log(error);

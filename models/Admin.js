@@ -11,7 +11,9 @@ const adminSchema= new mongoose.Schema({
         required:true
     },
     addMovies:[{
-        type:String
+        type:mongoose.Types.ObjectId,
+        ref:"Movie",
+        required:true
     }]
 })
 

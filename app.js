@@ -4,6 +4,8 @@ const mongoose= require("mongoose");
 const bodyparser=require("body-parser")
 const userRouter=require("./routes/user_routes");
 const adminRouter = require('./routes/admin_routes');
+const movieRouter = require('./routes/movie_routes');
+const bookingRouter = require('./routes/booking');
 
 
 
@@ -25,7 +27,9 @@ db.once('open',()=>{
 //middileware
 app.use("/user",userRouter);
 app.use("/admin",adminRouter);
+app.use("/movie",movieRouter)
+app.use("/booking",bookingRouter)
 
 app.listen(8080,()=>{
-    console.log("server is running in port ")
+    console.log("server is running in port")
 })
