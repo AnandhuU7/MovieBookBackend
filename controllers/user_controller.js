@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Booking=require("../models/Booking")
 const bcrypt = require("bcrypt");
 const saltrounds = 10;
 
@@ -129,3 +130,21 @@ return res.status(200).json({message:"Login Successfully "})
       .json({ message: "Unexpected error occured", error: error.message });
   }
 };
+
+exports.getAllBookingsOfUser=async(req,res,next)=>{
+  const id=req.params.id;
+  try{
+
+    const bookings=await Booking.find({user:id});
+    if(!bookings || bookings.length===0){
+      return res.status(404).json({message:'No Bookings found'});
+    }
+
+    return res.status(201).json({bookings:bookings})
+  }
+  catch(error){
+    console.log(error);
+    return res.status(500).json({message:"internal error",error:error.message})
+  }
+}
+

@@ -71,3 +71,37 @@ exports.getBookingById = async (req, res, next) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+exports.deleteBooking = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const booking = await Booking.findById(id);
+    if (!booking) {
+      return res.status(404).json({ message: "Booking Not found" });
+    }
+    const movie = await Movie.findById(booking.movie);
+    const user = await User.findById(booking.user);
+
+    if (!movie) {
+      return res.status(404).json({ message: "Associated movie not found" });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: "Associated user not found" });
+    }
+
+    user.bookings.pull(booking._id);
+    await user.save();
+
+    movie.bookings.pull(booking._id);
+    await movie.save();
+
+    await Booking.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Booking deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};

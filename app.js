@@ -5,7 +5,7 @@ const bodyparser=require("body-parser")
 const userRouter=require("./routes/user_routes");
 const adminRouter = require('./routes/admin_routes');
 const movieRouter = require('./routes/movie_routes');
-const bookingRouter = require('./routes/booking');
+const bookingRouter = require('./routes/booking_routes');
 
 
 
