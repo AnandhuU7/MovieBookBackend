@@ -26,7 +26,7 @@ exports.addMovie = async (req, res, next) => {
     !posterUrl || posterUrl.trim() === "" ||
     !actors || actors.trim() === ""
   ) {
-    return res.status(422).json({ message: "Invalid Inputs" });
+    return res.status(422).json({ message: "Invalid " });
   }
   try {
     const movie = new Movie({
@@ -41,7 +41,6 @@ exports.addMovie = async (req, res, next) => {
 
     await movie.save();
 
-    // Optionally, update admin's movie list
     const admin = await Admin.findById(adminId);
     if (admin) {
       admin.addMovies.push(movie);
